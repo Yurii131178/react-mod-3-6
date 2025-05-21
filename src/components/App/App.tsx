@@ -122,14 +122,46 @@ OrderForm не знає, що буде з даними – вона просто
 //   );
 // }
 
-//==================================//
+//==============MODULE-3-FORMS====================//
+//====== FINAL APP==========//
 
-import OrderFormRadio from '../OrderFormRadio/OrderFormRadio';
+// import OrderFormRadio from '../OrderFormRadio/OrderFormRadio';
+
+// export default function App() {
+//   return (
+//     <>
+//       <OrderFormRadio />
+//     </>
+//   );
+// }
+
+//===============================================//
+
+//============MODULE-3-EFFECTS==================//
+/**Заняття 6. Побічні ефекти
+React-компоненти проходять три основні етапи у своєму житті:
+
+Монтування (Mounting) – це перший рендер, коли компонент вперше з’являється на сторінці.
+Оновлення (Updating) – компонент оновлюється кожного разу, коли змінюються стан або пропси та React виконує повторний рендер.
+Розмонтування (Unmounting) – компонент видаляється зі сторінки, наприклад коли використовується умовний рендер.
+
+Ми вже розуміємо як виконати й обробити HTTP запит при події, наприклад при сабміті форми. А як зробити запит коли компонент тільки завантажився і користувач ще не виконав ніяких дій?
+
+Спробуємо наступний код. Не будемо поки що додавати типи, щоб не ускладнювати: */
+
+import { useState } from 'react';
+import axios from 'axios';
 
 export default function App() {
+  const [person, setPerson] = useState(null);
+
+  axios
+    .get('https://swapi.info/api/people/1')
+    .then(response => setPerson(response.data));
+
   return (
     <>
-      <OrderFormRadio />
+      <pre>{JSON.stringify(person, null, 2)}</pre>
     </>
   );
 }
