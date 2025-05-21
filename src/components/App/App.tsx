@@ -3,8 +3,6 @@
 //     event.preventDefault();
 //     const form = event.currentTarget;
 
-import OrderForm from '../OrderForm/OrderForm';
-
 //     const formData = new FormData(form);
 //     const username = formData.get('username');
 //     console.log('Username:', username);
@@ -125,6 +123,8 @@ OrderForm не знає, що буде з даними – вона просто
 // }
 
 //==================================//
+
+import OrderFormRadio from '../OrderFormRadio/OrderFormRadio';
 
 export default function App() {
   return (

@@ -9,7 +9,7 @@ interface OrderData {
   restrictions: string[];
 }
 
-export default function OrderForm() {
+export default function OrderFormRadio() {
   const fieldId = useId();
 
   const handleOrder = (formData: FormData) => {
