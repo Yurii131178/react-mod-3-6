@@ -524,19 +524,52 @@ useEffect(() => {
 
 Тепер ми можемо виправити проблему з таймером, достатньо при розмонтуванні компонента очищати інтервал. Для цього зберігаємо ідентифікатор інтервалу в змінну і в функції очищення викликаємо clearInterval. */
 //----------------------------------------------//
-import { useState } from 'react';
-import Timer from '../Timer/Timer';
+// import { useState } from 'react';
+// import Timer from '../Timer/Timer';
+
+// export default function App() {
+//   const [isOpen, setIsOpen] = useState(false);
+
+//   return (
+//     <>
+//       <button onClick={() => setIsOpen(!isOpen)}>
+//         {isOpen ? 'Hide timer' : 'Show timer'}
+//       </button>
+//       {isOpen && <Timer />}
+//     </>
+//   );
+// }
+//---------------------------------------------//
+
+/**=========Модальне вікно=================//
+ * 
+Модальне вікно (modal) – це елемент інтерфейсу, який накладається поверх усього контенту сторінки та вимагає взаємодії з ним, перш ніж користувач зможе повернутись до основного вмісту.
+
+Приклади:
+
+Попап із зображенням.
+Підтвердження видалення.
+Форма зворотного зв’язку.
+Галерея зображень.
+
+Компонент модального вікна
+
+Почнемо з простого компонента модалки. Спершу створимо сам компонент Modal.tsx, який відображатиме заголовок і текст:
+!!!!!!!! компонент створюємо в папці Modal !!!!!!!!!!
+*/
+//---------------------------------------------//
+
+import Modal from '../Modal/Modal';
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <>
-      <button onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? 'Hide timer' : 'Show timer'}
-      </button>
-      {isOpen && <Timer />}
+      <div>
+        <h1>Main content of the page</h1>
+        <Modal />
+      </div>
     </>
   );
 }
+
 //---------------------------------------------//
