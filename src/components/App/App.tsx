@@ -431,18 +431,112 @@ useEffect(() => {
 
 */
 
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
+
+// export default function App() {
+//   const [clicks, setClicks] = useState(0);
+
+//   useEffect(() => {
+//     console.log('You can see me only once!');
+//   }, []);
+
+//   return (
+//     <button onClick={() => setClicks(clicks + 1)}>
+//       You clicked {clicks} times
+//     </button>
+//   );
+// }
+//---------------------ОЧИЩЕННЯ ЕФЕКТІВ----------------------.//
+// import Timer from '../Timer/Timer';
+
+// export default function App() {
+//   return (
+//     <>
+//       <Timer />
+//     </>
+//   );
+// }
+
+//--------------------------------------------------------//
+/**На перший погляд, все буде працювати добре, але якщо подивитись в консоль, ми побачимо, що будуть запущені два інтервали замість одного:
+
+Компонент Timer монтується в DOM вперше.
+Виконується ефект і запускається інтервал.
+Компонент Timer розмонтується і видаляється з DOM.
+Компонент Timer монтується в DOM вдруге.
+Виконується ефект і запускається інтервал.
+Компонент залишається в DOM і готовий до оновлень.
+
+Може здатися, що StrictMode заважає і, навпаки, руйнує нашу логіку, і ви будете праві. StrictMode говорить нам, що в разі розмонтування компонента ми не зупиняємо інтервал, що при повторних монтуваннях призводить до запуску все нових і нових інтервалів і, відповідно, витоку пам'яті.
+
+Додамо в компонент App стан isOpen, який буде контролювати видимість компонента Timer. */
+//--------------------------------------------------------//
+// import { useState } from 'react';
+// import Timer from '../Timer/Timer';
+
+// export default function App() {
+//   const [isOpen, setIsOpen] = useState(false);
+
+//   return (
+//     <>
+//       <button onClick={() => setIsOpen(!isOpen)}>
+//         {isOpen ? 'Hide timer' : 'Show timer'}
+//       </button>
+//       {isOpen && <Timer />}
+//     </>
+//   );
+// }
+//--------------------------------------------------------//
+/**=============Функція очищення=================//
+
+Хук useEffect може оголошувати функцію очищення ефекту (cleanup), для цього з колбек-функції потрібно повернути ще одну функцію. */
+//------------------------------------------//
+// import { useEffect, useState } from 'react';
+
+// export default function App() {
+//   const [count, setCount] = useState(0);
+
+//   useEffect(() => {
+//     console.log(`Effect ran for: ${count}`);
+
+//     // Повертаємо функцію очищення ефекта
+//     return () => {
+//       console.log(`Clean up for ${count}`);
+//     };
+//   }, [count]);
+
+//   return (
+//     <>
+//       <button onClick={() => setCount(count + 1)}>Count is {count}</button>
+//     </>
+//   );
+// }
+//------------------------------------------//
+/**Функція очищення запускається перед кожним наступним викликом ефекту і перед розмонтуванням компонента, тобто:
+
+Перший запуск ефекту.
+Очищення першого ефекту.
+Другий запуск ефекту.
+Очищення другого ефекту.
+Третій запуск ефекту.
+І так далі.
+
+
+Тепер ми можемо виправити проблему з таймером, достатньо при розмонтуванні компонента очищати інтервал. Для цього зберігаємо ідентифікатор інтервалу в змінну і в функції очищення викликаємо clearInterval. */
+//----------------------------------------------//
+import { useState } from 'react';
+import Timer from '../Timer/Timer';
 
 export default function App() {
-  const [clicks, setClicks] = useState(0);
-
-  useEffect(() => {
-    console.log('You can see me only once!');
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <button onClick={() => setClicks(clicks + 1)}>
-      You clicked {clicks} times
-    </button>
+    <>
+      <button onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? 'Hide timer' : 'Show timer'}
+      </button>
+      {isOpen && <Timer />}
+    </>
   );
 }
+//---------------------------------------------//
