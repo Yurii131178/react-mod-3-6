@@ -559,17 +559,134 @@ useEffect(() => {
 */
 //---------------------------------------------//
 
+// import Modal from '../Modal/Modal';
+
+// export default function App() {
+//   return (
+//     <>
+//       <div>
+//         <h1>Main content of the page</h1>
+//         <Modal />
+//       </div>
+//     </>
+//   );
+// }
+// ---------------------------------------------//
+
+/**Кнопка закриття
+
+Зазвичай у модальному вікні є кнопка закриття (хрестик у кутку). Ми передамо в компонент Modal функцію onClose, яку будемо викликати, коли користувач натисне кнопку.
+ */
+
+//Оновимо код App і додамо логіку відображення модального вікна за допомогою стану.
+//...............................................//
+// import { useState } from 'react';
+// import Modal from '../Modal/Modal';
+
+// export default function App() {
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+
+//   const openModal = () => setIsModalOpen(true);
+
+//   const closeModal = () => setIsModalOpen(false);
+
+//   return (
+//     <div>
+//       <h1>Main content of the page</h1>
+//       <button onClick={openModal}>Open modal</button>
+//       {isModalOpen && <Modal onClose={closeModal} />}
+//     </div>
+//   );
+// }
+
+//...............................................//
+// **=================Повторне використання====================//
+
+// Модальне вікно - це класичний приклад компонента, який може бути використаний повторно у різних частинах додатку. Замість того, щоб писати окрему модалку для кожної ситуації, ми можемо створити один компонент, який буде приймати різний внутрішній контент.
+
+// <Modal>
+//   <h2>Custom Modal Content</h2>
+//   <p>This JSX will be passed as children prop</p>
+// </Modal>
+
+// Будь який контент між відкриваючим та закриваючим тегом компонента буде передано як children - спеціальний службовий пропс, що дозволяє передавати дочірні елементи (компоненти або JSX) в компонент. Це дає змогу зробити компонент максимально гнучким.
+
+// Таким чином ми можемо створити один компонент модального вікна, яке буде відображати різний вміст в залежності від того, що ми передаємо в children.
+
+// Для типізації пропса children використовуємо стандартний тип React.ReactNode, який описує будь-який вміст, що може бути переданий в компонент: елементи, рядки, числа, масиви елементів або навіть інші компоненти.
+
+// .............................
+// interface ModalProps {
+//   children: React.ReactNode;
+// }
+// .............................
+/**Тепер можемо використовувати компонент Modal в різних частинах додатку і передавати в нього різний контент, не створюючи новий компонент для кожної ситуації. */
+import { useState } from 'react';
 import Modal from '../Modal/Modal';
 
 export default function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+
+  const closeModal = () => setIsModalOpen(false);
+
   return (
-    <>
-      <div>
-        <h1>Main content of the page</h1>
-        <Modal />
-      </div>
-    </>
+    <div>
+      <h1>Main content of the page</h1>
+      <button onClick={openModal}>Open modal</button>
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <h2>Custom Modal Content</h2>
+          <p>This is a reusable modal with dynamic content.</p>
+        </Modal>
+      )}
+    </div>
   );
 }
+/**Тепер у нас повноцінне, доступне, реюзабельне, типізоване модальне вікно з підтримкою клавіатури та стилями. */
+//==================================================================//
 
-//---------------------------------------------//
+//============Робота з LocalStorage==================//
+
+// У React-додатках часто потрібно зберігати дані між сесіями користувача: обрані фільтри, налаштування теми, останній пошук тощо. Для цього використовують localStorage – вбудоване сховище браузера.
+
+// Розглянемо приклад – кнопка, яка підраховує кліки. При перезавантаженні сторінки лічильник має зберігатися.
+
+// import { useState } from 'react';
+
+// export default function App() {
+//   const [clicks, setClicks] = useState(0);
+
+//   return (
+//     <div>
+//       <button onClick={() => setClicks(clicks + 1)}>
+//         You clicked {clicks} times
+//       </button>
+//       <button onClick={() => setClicks(0)}>Reset</button>
+//     </div>
+//   );
+// }
+
+/**Запис у LocalStorage
+
+Кожного разу, коли значення clicks змінюється – ми можемо зберігати його в localStorage за допомогою useEffect. */
+
+// import { useState, useEffect } from 'react';
+
+// export default function App() {
+//   const [clicks, setClicks] = useState(0);
+
+//   useEffect(() => {
+//     localStorage.setItem('saved-clicks', JSON.stringify(clicks));
+//   }, [clicks]);
+
+//   return (
+//     <div>
+//       <button onClick={() => setClicks(clicks + 1)}>
+//         You clicked {clicks} times
+//       </button>
+//       <button onClick={() => setClicks(0)}>Reset</button>
+//     </div>
+//   );
+// }
